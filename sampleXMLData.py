@@ -1,4 +1,3 @@
-# Description: command line python script to query an xml file and pull a random sample of some number of a particular element and it's children from the xml tree and write the samples out to subset xml file
 import sys
 import xml.etree.ElementTree as ET
 import random
@@ -7,8 +6,18 @@ import xml.dom.minidom
 def prettify(elem):
     """Return a pretty-printed XML string for the Element."""
     rough_string = ET.tostring(elem, 'utf-8')
-    reparsed = ET.fromstring(rough_string)
-    return xml.dom.minidom.parseString(ET.tostring(reparsed)).toprettyxml(indent="    ")
+    reparsed = xml.dom.minidom.parseString(rough_string)
+    pretty_string = reparsed.toprettyxml(indent="    ")
+    
+    # Remove extra blank lines but keep indentation
+    lines = pretty_string.splitlines()
+    result_lines = []
+    for line in lines:
+        stripped_line = line.strip()
+        if stripped_line:  # Keep non-empty lines
+            result_lines.append(line)
+    
+    return "\n".join(result_lines)
 
 def find_elements_by_path(root, element_path):
     """Find elements in XML tree based on the specified element_path."""
@@ -54,8 +63,8 @@ if __name__ == "__main__":
         print("Example: python script.py input.xml user 5")
         print("Note: Don't include your root element in your path above, exclude it.")
         print("For example if the XML tree is /users/user/id, and you want to get samples")
-        print("of id, use would specify /user/id or sampes of user would be just user, ")
-        print("as we exclude specifing the root element.")
+        print("of id, use would specify /user/id or samples of user would be just user, ")
+        print("as we exclude specifying the root element.")
     else:
         input_xml = sys.argv[1]
         element_path = sys.argv[2]
