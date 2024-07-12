@@ -51,8 +51,11 @@ def create_sample_xml(input_file, output_file, element_path, num_elements):
 if __name__ == "__main__":
     if len(sys.argv) != 4:
         print("Usage: python script.py <input_xml> <element_path> <num_elements>")
-        print("Example: python script.py input.xml users/user/id 5")
-        print("Note: Don't include your root element in your path above, exclude it")
+        print("Example: python script.py input.xml user 5")
+        print("Note: Don't include your root element in your path above, exclude it.")
+        print("For example if the XML tree is /users/user/id, and you want to get samples")
+        print("of id, use would specify /user/id or sampes of user would be just user, ")
+        print("as we exclude specifing the root element.")
     else:
         input_xml = sys.argv[1]
         element_path = sys.argv[2]
